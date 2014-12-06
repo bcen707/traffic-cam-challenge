@@ -29,14 +29,13 @@ function onReady() {
 
 
 	$.getJSON('http://data.seattle.gov/resource/65fc-btcc.json')
-		.done(function(coordinates)) {
-
+		.done(function(coordinates) {
 			for (var index = 0; index < coordinates.length; index++) {
 				var targetLat = parseFloat(coordinates[index].location.latitude);
 				var targetLng = parseFloat(coordinates[index].location.longitude);
 				position = {lat: targetLat, lng: targetLng};
 				marker = new google.maps.Marker({
-					positon: position,
+					position: position,
 					map: map
 				})
 			} // for loop
@@ -44,13 +43,11 @@ function onReady() {
 
 
 		// if request fails
+		/*
 		.fail(function(error)) {
 			alert("Failed to get JSON.")
-		})
-
-
-
-
+		}) 
+		*/
 
 
 } //onReady
