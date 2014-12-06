@@ -59,15 +59,16 @@ function onReady() {
 		*/
 
 
-		google.maps.event.addListener(marker, 'click', markerClick)
+		google.maps.event.addListener(marker, 'click', onMarkerClick)
 
 
 } //onReady
 
 
-function markerClick() {
-	map.panTo(this.getPosition());
-	infoWin.open(map, this);
+function onMarkerClick() {
+	// this refers to marker object
+	map.panTo(this.getPosition())
+	infoWin.open(map, this); // this SHOULD BE HIGHLIGHTED, FIND ERROR
 }
 
 $(onReady);
