@@ -1,3 +1,7 @@
+// Billy Cen
+// Info 343
+
+
 // List of Seattle Traffic Cameras
 // http://data.seattle.gov/resource/65fc-btcc.json
 
@@ -47,9 +51,38 @@ function onReady() {
 		.fail(function(error)) {
 			alert("Failed to get JSON.")
 		}) 
+
+		.always(function() {
+	
+
+		})
 		*/
+
+
+		google.maps.event.addListener(marker, 'click', markerClick)
 
 
 } //onReady
 
+
+function markerClick() {
+	map.panTo(this.getPosition());
+	infoWin.open(map, this);
+}
+
 $(onReady);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
