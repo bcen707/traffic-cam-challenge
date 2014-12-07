@@ -71,6 +71,16 @@ function onMarkerClick() {
 	infoWin.open(map, this); // this SHOULD BE HIGHLIGHTED, FIND ERROR
 }
 
+
+function searchAndKeyUp() {
+	$("search").bind("search keyup", searchAndKeyUp)
+	// need to get array of data again
+	// go through each index, compare "cameralabel" with the search phrase typed by user
+	// if they match, the marker for that camera should stay, otherwise set it to null
+	// by calling its setMap() and passing null
+}
+
+
 $(onReady);
 
 
