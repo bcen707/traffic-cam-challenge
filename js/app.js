@@ -61,7 +61,7 @@ function onReady() {
 
 		google.maps.event.addListener(marker, 'click', onMarkerClick)
 
-
+		google.maps.event.addListener(marker, 'click', searchAndKeyUp)
 } //onReady
 
 
