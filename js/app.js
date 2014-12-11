@@ -28,57 +28,72 @@ function onReady() {
 	var map = new google.maps.Map(mapElem, mapOptions);
 
 	var position;
-
+	var markers = []
 	var marker;
 
 
 	$.getJSON('http://data.seattle.gov/resource/65fc-btcc.json')
 		.done(function(coordinates) {
-			for (var index = 0; index < coordinates.length; index++) {
-				var targetLat = parseFloat(coordinates[index].location.latitude);
-				var targetLng = parseFloat(coordinates[index].location.longitude);
+			coordinates.forEach(function(coordinates) {
+				var targetLat = parseFloat(coordinates.location.latitude);
+				var targetLng = parseFloat(coordinates.location.longitude);
 				position = {lat: targetLat, lng: targetLng};
 				marker = new google.maps.Marker({
 					position: position,
-					map: map
+					map: map,
+					label: data.cameralabel,
+					url: data.imageurl.url
 				})
-			} // for loop
+				markers.push(marker);
+				google.maps.event.addListener(marker, 'click', onMarkerClick)
+			
+				function onMarkerClick() {
+					// this refers to marker object
+					map.panTo(this.getPosition());
+					infoWin.setContent('<p>'
+                        + this.label + '<br>'
+                        + '<img src="' + this.url 
+                        + '" alt="Live camera image at'
+                        + this.label + '"/>'                        
+                        + '</p>');
+					infoWin.open(map, this); // 
+				}
+			}) // for loop
+
+
+
+			google.maps.event.addListener(map, 'click', onMapClick)
+
+			function onMapClick() {
+				infoWin.close();
+			}
+
+			$('#search').bind('search keyup', searchAndKeyUp) {
+                var searchTxt = this.value.toLowerCase();
+                var compare;
+                markers.forEach(function(markers) {
+                    compare = markers.label.toLowerCase();
+                    if (compare.indexOf(searchTxt) == -1) {
+                        markers.setMap(null);
+                    }  
+                    if (searchTxt == '') {
+                        markers.setMap(map);
+                    }
+                })
+            });
+
+
 		}) //.done
 
-
 		// if request fails
-		/*
-		.fail(function(error)) {
+		.fail(function(error) {
 			alert("Failed to get JSON.")
 		}) 
-
 		.always(function() {
 	
-
 		})
-		*/
 
-
-		google.maps.event.addListener(marker, 'click', onMarkerClick)
-
-		google.maps.event.addListener(marker, 'click', searchAndKeyUp)
 } //onReady
-
-
-function onMarkerClick() {
-	// this refers to marker object
-	map.panTo(this.getPosition())
-	infoWin.open(map, this); // this SHOULD BE HIGHLIGHTED, FIND ERROR
-}
-
-
-function searchAndKeyUp() {
-	$("search").bind("search keyup", searchAndKeyUp)
-	// need to get array of data again
-	// go through each index, compare "cameralabel" with the search phrase typed by user
-	// if they match, the marker for that camera should stay, otherwise set it to null
-	// by calling its setMap() and passing null
-}
 
 
 $(onReady);
