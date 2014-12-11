@@ -26,11 +26,9 @@ function onReady() {
 
 	var mapElem = document.getElementById('map');
 	var map = new google.maps.Map(mapElem, mapOptions);
-
 	var position;
 	var storeMarkers = [];
 	var marker;
-
 
 	$.getJSON('http://data.seattle.gov/resource/65fc-btcc.json')
 		.done(function(coordinates) {
@@ -56,7 +54,7 @@ function onReady() {
                         + '" alt="Live camera image at'
                         + this.label + '"/>'                        
                         + '</p>');
-					infoWin.open(map, this); // 
+					infoWin.open(map, this); 
 				}
 			}) // for loop
 
@@ -93,7 +91,6 @@ function onReady() {
 		})
 
 } //onReady
-
 
 $(onReady);
 
