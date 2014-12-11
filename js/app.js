@@ -45,7 +45,8 @@ function onReady() {
 				})
 				storeMarkers.push(marker);
 				google.maps.event.addListener(marker, 'click', onMarkerClick)
-			
+				google.maps.event.addListener(marker, 'click', toggleBounce)
+
 				function onMarkerClick() {
 					// this refers to marker object
 					map.panTo(this.getPosition());
@@ -59,16 +60,12 @@ function onReady() {
 				}
 			}) // for loop
 
-			google.maps.event.addListener(marker, 'click', toggleBounce)
-
 			function toggleBounce() {
 				 if (marker.getAnimation() != null) {
 				 	marker.setAnimation(null);
 				 } else {
 				 	marker.setAnimation(google.maps.Animation.BOUNCE);
 				 }
-
-
 			}
 
 			google.maps.event.addListener(map, 'click', closeWindow)
@@ -91,8 +88,6 @@ function onReady() {
                     }  
                 })
             });
-
-
 		}) //.done
 
 		// if request fails
