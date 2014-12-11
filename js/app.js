@@ -28,7 +28,6 @@ function onReady() {
 	var map = new google.maps.Map(mapElem, mapOptions);
 
 	var position;
-	var storeMarkers = [];
 
 	var marker;
 
@@ -41,61 +40,46 @@ function onReady() {
 				position = {lat: targetLat, lng: targetLng};
 				marker = new google.maps.Marker({
 					position: position,
-					map: map,
-					label: data.cameralabel,
-					url: data.imageurl.url
+					map: map
 				})
-				storeMarkers.push(marker);
-				google.maps.event.addListener(marker, 'click', onMarkerClick)
-
-
-				function onMarkerClick() {
-					// this refers to marker object
-					map.panTo(this.getPosition());
-					infoWin.setContent('<p>'+ this.label + '<br>'+ '<img src="' + this.url 
-                        				+ '" alt="Live camera image at'+ this.label + '"/>'                        
-                        				+ '</p>');
-					infoWin.open(map, this);			
-				} //onMarkerClick
 			} // for loop
-
-
-
-			google.maps.event.addListener(map, 'click', closeWindow)
-
-			function closeWindow() {
-				infowin.close();
-			}
-
-			$("#search").bind("search keyup", function() {
-				var check;
-				var clientSearch = this.value.toLowerCase();
-				for (var index = 0, index < storeMarkers.length; index++) {
-					check = storeMarkers.label.toLowerCase();
-					if (clientSearch == '') {
-						storeMarkers.setMap(map);
-					}
-
-					if (check.indexOf(clientSearch) == -1) {
-						storeMarkers.setMap(null);
-					}
-
-				}//for loop
-			} //#search
-
 		}) //.done
 
 
 		// if request fails
+		/*
 		.fail(function(error)) {
 			alert("Failed to get JSON.")
 		}) 
 
 		.always(function() {
 	
+
 		})
-			
+		*/
+
+
+		google.maps.event.addListener(marker, 'click', onMarkerClick)
+
+		google.maps.event.addListener(marker, 'click', searchAndKeyUp)
 } //onReady
+
+
+function onMarkerClick() {
+	// this refers to marker object
+	map.panTo(this.getPosition())
+	infoWin.open(map, this); // this SHOULD BE HIGHLIGHTED, FIND ERROR
+}
+
+
+function searchAndKeyUp() {
+	$("search").bind("search keyup", searchAndKeyUp)
+	// need to get array of data again
+	// go through each index, compare "cameralabel" with the search phrase typed by user
+	// if they match, the marker for that camera should stay, otherwise set it to null
+	// by calling its setMap() and passing null
+}
+
 
 $(onReady);
 
