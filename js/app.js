@@ -40,7 +40,8 @@ function onReady() {
 					position: position,
 					map: map,
 					label: coordinates.cameralabel,
-					url: coordinates.imageurl.url
+					url: coordinates.imageurl.url,
+					animation: google.maps.Animation.DROP
 				})
 				storeMarkers.push(marker);
 				google.maps.event.addListener(marker, 'click', onMarkerClick)
@@ -57,6 +58,18 @@ function onReady() {
 					infoWin.open(map, this); 
 				}
 			}) // for loop
+
+			google.maps.event.addListener(marker, 'click', toggleBounce)
+
+			function toggleBounce() {
+				 if (marker.getAnimation() != null) {
+				 	marker.setAnimation(null);
+				 } else {
+				 	marker.setAnimation(google.maps.Animation.BOUNCE);
+				 }
+
+
+			}
 
 			google.maps.event.addListener(map, 'click', closeWindow)
 
