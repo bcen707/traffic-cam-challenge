@@ -28,7 +28,7 @@ function onReady() {
 	var map = new google.maps.Map(mapElem, mapOptions);
 
 	var position;
-	var markers = []
+	var storeMarkers = []
 	var marker;
 
 
@@ -44,7 +44,7 @@ function onReady() {
 					label: coordinates.cameralabel,
 					url: coordinates.imageurl.url
 				})
-				markers.push(marker);
+				storeMarkers.push(marker);
 				google.maps.event.addListener(marker, 'click', onMarkerClick)
 			
 				function onMarkerClick() {
@@ -60,24 +60,22 @@ function onReady() {
 				}
 			}) // for loop
 
+			google.maps.event.addListener(map, 'click', closeWindow)
 
-
-			google.maps.event.addListener(map, 'click', onMapClick)
-
-			function onMapClick() {
+			function closeWindow() {
 				infoWin.close();
 			}
 
-			$('#search').bind('search keyup', function() {
+			$("#search").bind("search keyup", function() {
                 var check;
                 var clientSearch = this.value.toLowerCase();
-                markers.forEach(function(markers) {
-                    check = markers.label.toLowerCase();
+                storeMarkers.forEach(function(storeMarkers) {
+                    check = storeMarkers.label.toLowerCase();
                     if (clientSearch == '') {
-                        markers.setMap(map);
+                        storeMarkers.setMap(map);
                     }
                     if (check.indexOf(clientSearch) == -1) {
-                        markers.setMap(null);
+                        storeMarkers.setMap(null);
                     }  
                 })
             });
