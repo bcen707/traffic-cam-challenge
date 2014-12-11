@@ -28,7 +28,7 @@ function onReady() {
 	var map = new google.maps.Map(mapElem, mapOptions);
 
 	var position;
-	var storeMarkers = []
+	var storeMarkers = [];
 	var marker;
 
 
@@ -62,6 +62,7 @@ function onReady() {
 
 			google.maps.event.addListener(map, 'click', closeWindow)
 
+			// close info window when user clicks map
 			function closeWindow() {
 				infoWin.close();
 			}
