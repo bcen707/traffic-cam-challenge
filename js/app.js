@@ -41,8 +41,8 @@ function onReady() {
 				marker = new google.maps.Marker({
 					position: position,
 					map: map,
-					label: data.cameralabel,
-					url: data.imageurl.url
+					label: coordinates.cameralabel,
+					url: coordinates.imageurl.url
 				})
 				markers.push(marker);
 				google.maps.event.addListener(marker, 'click', onMarkerClick)
@@ -68,17 +68,17 @@ function onReady() {
 				infoWin.close();
 			}
 
-			$('#search').bind('search keyup', searchAndKeyUp) {
-                var searchTxt = this.value.toLowerCase();
-                var compare;
+			$('#search').bind('search keyup', function() {
+                var check;
+                var clientSearch = this.value.toLowerCase();
                 markers.forEach(function(markers) {
-                    compare = markers.label.toLowerCase();
-                    if (compare.indexOf(searchTxt) == -1) {
-                        markers.setMap(null);
-                    }  
-                    if (searchTxt == '') {
+                    check = markers.label.toLowerCase();
+                    if (clientSearch == '') {
                         markers.setMap(map);
                     }
+                    if (check.indexOf(clientSearch) == -1) {
+                        markers.setMap(null);
+                    }  
                 })
             });
 
